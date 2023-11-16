@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoe Store</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        .custom-color {
+            background-color: orange !important;
+            padding-left: 10%;
+            padding-right: 10%;
+        }
+
+        .navbar-brand {
+            color: white;
+        }
+
+        .navbar-nav .nav-link {
+            color: white !important;
+        }
+
+        .navbar-toggler-icon {
+            background-color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark custom-color">
+        <a class="navbar-brand" href="product">Truyện tranh</a>
+        <a class="navbar-brand" href="manage">Quản lý</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Vertical Tabs -->
+            <div class="col-md-3 col-12">
+                <div class="list-group" id="v-pills-tab" role="tablist">
+                    <h3>Thêm</h3>
+                    <a class="list-group-item list-group-item-action active" id="v-pills-add-tab" data-toggle="pill"
+                        href="#v-pills-add" role="tab">Thêm sản phẩm</a>
+                    <h3>Quản lý</h3>
+                    <a class="list-group-item list-group-item-action" id="v-pills-products-tab" data-toggle="pill"
+                        href="#v-pills-products" role="tab">Quản lý sản phẩm</a>
+                </div>
+            </div>
+
+            <!-- Tabs Content -->
+            <div class="col-md-9 col-12">
+                <div class="tab-content" id="v-pills-tabContent">
+                    <!-- Thêm sản phẩm tab -->
+                    <div class="tab-pane fade  show active" id="v-pills-add" role="tabpanel">
+                        <h2>Thêm sản phẩm</h2>
+                        <form action="manage/addManagee" method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="productName">Tên Truyện</label>
+                                <input type="text" class="form-control" id="productName" name="productName"
+                                    placeholder="Nhập tên sản phẩm">
+                            </div>
+                            <div class="form-group">
+                                <label for="productAuthor">Tên Tác giả</label>
+                                <input type="text" class="form-control" id="productAuthor" name="productAuthor"
+                                    placeholder="Nhập tên tác giả">
+                            </div>
+                            <div class="form-group">
+                                <label for="productYear">Năm xuất bản</label>
+                                <input type="number" class="form-control" id="productYear" name="productYear"
+                                    placeholder="Nhập năm xuất bản">
+                            </div>
+                            <div class="form-group">
+                                <label for="productDescription">Mô tả</label>
+                                <textarea class="form-control" id="productDescription" name="productDescription"
+                                    rows="3"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="avatar">Ảnh bìa</label>
+                                <input type="file" class="form-control" id="avatar" name="avatar" />
+                            </div>
+                            <div class="form-group">
+                                <label for="imagesContent">Ảnh nội dung</label>
+                                <input type="file" class="form-control" id="imagesContent" name="imagesContent"
+                                    multiple />
+                            </div>
+                            <button id="push" type="submit" class="btn"
+                                style="background-color: orange; color: white;">Thêm sản phẩm</button>
+                        </form>
+                    </div>
+                    <!-- Quản lý sản phẩm tab -->
+                    <div class="tab-pane fade" id="v-pills-products" role="tabpanel">
+                        <h2>Quản lý sản phẩm</h2>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Ảnh bìa</th>
+                                    <th>Tên truyện</th>
+                                    <th>Tác giả</th>
+                                    <th>Năm xuất bản</th>
+                                    <th>Ảnh nội dung</th>
+                                    <th>Mô tả</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% product.forEach((item)=> { %>
+                                    <tr>
+                                        <td>
+                                            <%= item._id %>
+                                        </td>
+                                        <td>
+                                            <img src="<%= item.banner %>" alt="item.plot" width="70px" height="70px" />
+                                        </td>
+                                        <td>
+                                            <%= item.plot %>
+                                        </td>
+                                        <td>
+                                            <%= item.author %>
+                                        </td>
+                                        <td>
+                                            <%= item.year %>
+                                        </td>
+                                        <td>
+                                            <%item.arrayImages.forEach((item2)=>{%>
+                                                <img src="<%= item2%>" alt="" width="70px" height="70px">
+                                                <%}); %>
+                                        </td>
+                                        <td>
+                                            <%= item.describe %>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-danger">Xóa</button>
+                                            <button class="btn btn-primary">Sửa</button>
+                                        </td>
+                                    </tr>
+                                    <% });%>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

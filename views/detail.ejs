@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Chi Tiết Truyện</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .navbar {
+            background-color: orange;
+            padding-left: 10%;
+            padding-right: 10%;
+        }
+
+        .navbar-brand,
+        .nav-link {
+            color: white !important;
+        }
+
+        .navbar-toggler-icon {
+            background-color: white;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+
+        .card {
+            max-width: 1200px;
+            margin: auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .wrapper {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .preview,
+        .details {
+            width: 48%;
+        }
+
+        .preview img,
+        .img-fluid {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .preview-thumbnail img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .rating {
+            margin-bottom: 15px;
+        }
+
+        .product-description {
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .sizes,
+        .colors {
+            margin-bottom: 15px;
+        }
+
+        .size,
+        .color {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ddd;
+            margin-right: 5px;
+            text-align: center;
+            line-height: 30px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .add-to-cart,
+        .like {
+            width: 100%;
+            height: 40px;
+            color: white;
+            margin-top: 10px;
+        }
+
+        .like {
+            background-color: #dc3545;
+        }
+
+        .add-to-cart {
+            background-color: orange;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="/product">Truyện tranh</a>
+        <a class="navbar-brand" href="/manage">Quản lý</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="card">
+            <div class="wrapper row">
+                <div class="preview col-md-7">
+                    <div class="preview-pic tab-content">
+                        <div class="tab-pane active" id="pic-1"
+                            style="margin: 8px; display: flex; justify-content: center; align-items: center;">
+                            <img src="http://localhost:3006/<%= query.banner %>" alt="Product Image 1" id="mainImage"
+                                class="img-fluid">
+                        </div>
+                    </div>
+                    <div class="col mt-3">
+                        <% query.arrayImages.forEach((item)=> { %>
+                            <div class="col" style="margin-bottom: 10px;">
+                                <img src="http://localhost:3006/<%= item %>" alt="Product Thumbnail"
+                                    class="img-fluid thumbnail"
+                                    onclick="changeImage('http://localhost:3006/<%= item %>')">
+                            </div>
+                            <% }); %>
+                    </div>
+                </div>
+                <div class="details col-md-5">
+                    <!-- Your product details here -->
+                    <h3 class="product-title">Tên truyện: <%= query.plot %>
+                    </h3>
+                    <h5>Tác giả: <%= query.author %>
+                    </h5>
+                    <p>Năm xuất bản: <%= query.year %>
+                    </p>
+                    <p class="product-description">Mô tả truyện: <%= query.describe %>
+                    </p>
+
+                    <h3 style="margin-top: 32px;">Bình luận</h3>
+                    <div class="comment col" style="border:  1px solid grey;border-radius: 8px; ">
+                        <div class="row" style="padding-left: 20px; padding-top: 8px;">
+                            <h4 style="padding-right: 8px;">
+                                <%= user.username %>
+                            </h4>
+                            <p style="font-size: 13px;padding-top: 4px;">  
+                                <% const dateObject = new Date(comment.createdAt); %>
+                                <%const year = dateObject.getFullYear();%>
+                                <% const month = dateObject.getMonth() + 1; %>
+                                <% const day = dateObject.getDate();%>
+                                <%  const hours = dateObject.getHours();%>
+                                <%  const minutes = dateObject.getMinutes();%>
+                                <%  const seconds = dateObject.getSeconds(); %>
+                                <%const formattedDate = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;%>
+                                <%= formattedDate %>
+                            </p>
+                        </div>
+                        <h4>
+                            <%= comment.content %>
+                        </h4>
+
+
+                    </div>
+                    <!-- <div class="action">
+                        <form action="/detail/comment" method="post">
+                            <input type="hidden" name="idProduct" value="<%= query._id %>">
+                            <div class="form-group">
+                                <label for="productContent">Bình Luận</label>
+                                <textarea class="form-control" id="productContent" name="productContent" rows="3"></textarea>
+                            </div>
+                            <button class="add-to-cart btn btn-orange" type="submit">Bình luận</button>
+                        </form>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
