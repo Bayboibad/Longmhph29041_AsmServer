@@ -12,6 +12,11 @@ router.put('/updateUser', userController.updateUser);
 router.delete('/delete', userController.deleteUser);
 // API
 router.post('/addUserApi', userApi.addUserApi);
+router.get('/listUserApi', userApi.listUserApi);
+router.put('/updateUserApi',userApi.updateUser);
+router.delete('/deleteUserApi', userApi.deleteUser);
 
+
+router.post('/loginUserApi',userApi.addApiLogin);
 
 module.exports = router;

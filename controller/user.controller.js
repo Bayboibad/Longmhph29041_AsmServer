@@ -31,8 +31,24 @@ exports.addUser = async (req, res, next) => {
 exports.updateUser = (res, req, next) => {
 
 };
-exports.deleteUser = (res, req, next) => {
+exports.deleteUser = async (req, res, next) => {
+    // Implement the delete logic here
+    // Example: Delete user by ID
+    const productId = req.query.productId; 
 
+    try {
+        const deletedUser = await myModel.findOneAndDelete(productId);
+
+        if (!deletedUser) {
+            return res.status(404).send("User not found");
+        }
+
+        console.log("Xóa thành công", deletedUser,productId);
+        res.redirect('/manage'); // Redirect to the desired page after deleting
+    } catch (error) {
+        console.error("Xóa không thành công", error);
+        res.status(500).send("Internal Server Error");
+    }
 };
 
 exports.login = async (req, res, next) => {

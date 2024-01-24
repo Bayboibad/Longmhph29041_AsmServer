@@ -1,4 +1,5 @@
 const myModel = require('../model/product');
+const socket = require("../socket");
 var multer = require('multer');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -20,21 +21,17 @@ exports.addProduct = async (req, res, next) => {
                 try {
                     const productName = req.body.productName;
                     const productAuthor = req.body.productAuthor;
-                    const productYear = req.body.productYear;
-                    const productDescription = req.body.productDescription;
                      const avatarPath = req.files.avatar ? req.files.avatar[0].path : null;
-                     const imagesContentPaths = req.files.imagesContent ? req.files.imagesContent.map(file => file.path) : [];
+                  
 
                     let product = {
-                        plot: productName,
-                        describe: productDescription,
+                        title: productName,
                         author: productAuthor,
-                        year: productYear,
                         banner: avatarPath,
-                        arrayImages:imagesContentPaths,
                     };
                     let kq = await myModel.create(product);
                     console.log(kq);
+                    socket.io.emit("new msg", "Thêm Thành công");
                     res.redirect("/manage");
 
                 } catch (e) {
@@ -46,8 +43,42 @@ exports.addProduct = async (req, res, next) => {
         });
 
 }
-exports.updateManage = (req, res, next) => {
+
+exports.updateManage = async (req, res, next) => {
+    try {
+        const productId = req.body.productId;
+        const updatedData = {
+            title: req.body.editProductName,
+            author: req.body.editProductAuthor,
+        };
+
+        if (req.files && req.files.editAvatar) {
+            updatedData.banner = req.files.editAvatar[0].path;
+        }
+
+        // Update the product in the database
+        const updatedProduct = await myModel.findByIdAndUpdate(productId, updatedData, { new: true });
+
+        console.log('Updated Product:', updatedProduct);
+        res.redirect("/manage");
+    } catch (error) {
+        console.error('Error updating product:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
+
+exports.deleteManage = async (req, res, next) => {
+    try {
+        const productId = req.query.productId; 
+
+        // Delete the product from the database
+        await myModel.findByIdAndDelete(productId);
+
+        res.redirect("/manage");
+    } catch (e) {
+        console.log('Error deleting product:', e);
+        res.status(500).send('Internal Server Error');
+    }
 }
 
-exports.deleteManage = (req, res, next) => {
-}

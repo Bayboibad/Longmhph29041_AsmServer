@@ -1,8 +1,18 @@
-const db = require('../database/db');
-const commentShema = new db.mongoose.Schema({
-    id_user :String, 
-    id_plot: String,
-    content: String,
-},{collection:"tb_comment",timestamps : true});
-let Comment = db.mongoose.model('comment',commentShema,'comments');
+const mongoose = require('mongoose');
+const User = require("../model/user");
+const Comic = require("../model/product");
+const Schema = mongoose.Schema;
+
+const commentSchema = new Schema({
+  id_user: {
+    type: Schema.Types.ObjectId,
+    ref: User, 
+    required: true,
+  },
+  id_plot: String,
+  content: String,
+}, { collection: "tb_comment", timestamps: true });
+
+const Comment = mongoose.model('Comment', commentSchema, 'comments');
+
 module.exports = Comment;
